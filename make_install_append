@@ -1,0 +1,4 @@
+# move all from /usr/lib64/ to /usr/lib as we don't do /usr/lib64 in python paths
+mkdir -p %{buildroot}/usr/lib/python3.6/site-packages
+cp -R %{buildroot}/usr/lib64/python3.6/site-packages/* %{buildroot}/usr/lib/python3.6/site-packages/
+rm -rf %{buildroot}/usr/lib64/python3.6/site-packages
