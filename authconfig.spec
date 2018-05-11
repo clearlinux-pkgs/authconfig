@@ -4,7 +4,7 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 5
+Release  : 6
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
@@ -83,9 +83,9 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1512082812
+export SOURCE_DATE_EPOCH=1526002126
 %configure --disable-static --with-python-rev=3
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -95,7 +95,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1512082812
+export SOURCE_DATE_EPOCH=1526002126
 rm -rf %{buildroot}
 %make_install
 %find_lang authconfig
@@ -115,6 +115,10 @@ rm -rf %{buildroot}/usr/lib64/python3.6/site-packages
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/authconfig/__pycache__/authconfig.cpython-36.pyc
+/usr/share/authconfig/__pycache__/authinfo.cpython-36.pyc
+/usr/share/authconfig/__pycache__/dnsclient.cpython-36.pyc
+/usr/share/authconfig/__pycache__/shvfile.cpython-36.pyc
 /usr/share/authconfig/authconfig.py
 /usr/share/authconfig/authinfo.py
 /usr/share/authconfig/dnsclient.py
