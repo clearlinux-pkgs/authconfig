@@ -4,7 +4,7 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 10
+Release  : 11
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
@@ -13,8 +13,9 @@ License  : GPL-2.0 GPL-2.0+
 Requires: authconfig-bin
 Requires: authconfig-python3
 Requires: authconfig-data
+Requires: authconfig-license
 Requires: authconfig-locales
-Requires: authconfig-doc
+Requires: authconfig-man
 Requires: authconfig-python
 BuildRequires : gettext
 BuildRequires : intltool
@@ -28,6 +29,8 @@ BuildRequires : python3-dev
 Summary: bin components for the authconfig package.
 Group: Binaries
 Requires: authconfig-data
+Requires: authconfig-license
+Requires: authconfig-man
 
 %description bin
 bin components for the authconfig package.
@@ -41,12 +44,12 @@ Group: Data
 data components for the authconfig package.
 
 
-%package doc
-Summary: doc components for the authconfig package.
-Group: Documentation
+%package license
+Summary: license components for the authconfig package.
+Group: Default
 
-%description doc
-doc components for the authconfig package.
+%description license
+license components for the authconfig package.
 
 
 %package locales
@@ -55,6 +58,14 @@ Group: Default
 
 %description locales
 locales components for the authconfig package.
+
+
+%package man
+Summary: man components for the authconfig package.
+Group: Default
+
+%description man
+man components for the authconfig package.
 
 
 %package python
@@ -83,7 +94,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526002126
+export SOURCE_DATE_EPOCH=1530578573
 %configure --disable-static --with-python-rev=3
 make  %{?_smp_mflags}
 
@@ -95,14 +106,16 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1526002126
+export SOURCE_DATE_EPOCH=1530578573
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/authconfig
+cp COPYING %{buildroot}/usr/share/doc/authconfig/COPYING
 %make_install
 %find_lang authconfig
 ## make_install_append content
-mkdir -p %{buildroot}/usr/lib/python3.6/site-packages
-cp -R %{buildroot}/usr/lib64/python3.6/site-packages/* %{buildroot}/usr/lib/python3.6/site-packages/
-rm -rf %{buildroot}/usr/lib64/python3.6/site-packages
+mkdir -p %{buildroot}/usr/lib/python3.7/site-packages
+cp -R %{buildroot}/usr/lib64/python3.7/site-packages/* %{buildroot}/usr/lib/python3.7/site-packages/
+rm -rf %{buildroot}/usr/lib64/python3.7/site-packages
 ## make_install_append end
 
 %files
@@ -115,19 +128,28 @@ rm -rf %{buildroot}/usr/lib64/python3.6/site-packages
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/authconfig/__pycache__/authconfig.cpython-36.pyc
-/usr/share/authconfig/__pycache__/authinfo.cpython-36.pyc
-/usr/share/authconfig/__pycache__/dnsclient.cpython-36.pyc
-/usr/share/authconfig/__pycache__/shvfile.cpython-36.pyc
+/usr/share/authconfig/__pycache__/authconfig.cpython-37.pyc
+/usr/share/authconfig/__pycache__/authinfo.cpython-37.pyc
+/usr/share/authconfig/__pycache__/dnsclient.cpython-37.pyc
+/usr/share/authconfig/__pycache__/shvfile.cpython-37.pyc
 /usr/share/authconfig/authconfig.py
 /usr/share/authconfig/authinfo.py
 /usr/share/authconfig/dnsclient.py
 /usr/share/authconfig/shvfile.py
 
-%files doc
+%files license
 %defattr(-,root,root,-)
-%doc /usr/share/man/man5/*
-%doc /usr/share/man/man8/*
+/usr/share/doc/authconfig/COPYING
+
+%files man
+%defattr(-,root,root,-)
+/usr/share/man/man5/fingerprint-auth-ac.5
+/usr/share/man/man5/password-auth-ac.5
+/usr/share/man/man5/postlogin-ac.5
+/usr/share/man/man5/smartcard-auth-ac.5
+/usr/share/man/man5/system-auth-ac.5
+/usr/share/man/man8/authconfig.8
+/usr/share/man/man8/cacertdir_rehash.8
 
 %files python
 %defattr(-,root,root,-)
