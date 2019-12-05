@@ -4,19 +4,19 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 19
+Release  : 20
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
 Group    : Development/Tools
 License  : GPL-2.0 GPL-2.0+
-Requires: authconfig-bin
-Requires: authconfig-python3
-Requires: authconfig-data
-Requires: authconfig-license
-Requires: authconfig-locales
-Requires: authconfig-man
-Requires: authconfig-python
+Requires: authconfig-bin = %{version}-%{release}
+Requires: authconfig-data = %{version}-%{release}
+Requires: authconfig-license = %{version}-%{release}
+Requires: authconfig-locales = %{version}-%{release}
+Requires: authconfig-man = %{version}-%{release}
+Requires: authconfig-python = %{version}-%{release}
+Requires: authconfig-python3 = %{version}-%{release}
 BuildRequires : gettext
 BuildRequires : intltool
 BuildRequires : perl(XML::Parser)
@@ -28,9 +28,8 @@ BuildRequires : python3-dev
 %package bin
 Summary: bin components for the authconfig package.
 Group: Binaries
-Requires: authconfig-data
-Requires: authconfig-license
-Requires: authconfig-man
+Requires: authconfig-data = %{version}-%{release}
+Requires: authconfig-license = %{version}-%{release}
 
 %description bin
 bin components for the authconfig package.
@@ -71,7 +70,7 @@ man components for the authconfig package.
 %package python
 Summary: python components for the authconfig package.
 Group: Default
-Requires: authconfig-python3
+Requires: authconfig-python3 = %{version}-%{release}
 
 %description python
 python components for the authconfig package.
@@ -88,35 +87,42 @@ python3 components for the authconfig package.
 
 %prep
 %setup -q -n authconfig-7.0.1
+cd %{_builddir}/authconfig-7.0.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1531201675
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1575585333
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-python-rev=3
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1531201675
+export SOURCE_DATE_EPOCH=1575585333
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/authconfig
-cp COPYING %{buildroot}/usr/share/doc/authconfig/COPYING
+mkdir -p %{buildroot}/usr/share/package-licenses/authconfig
+cp %{_builddir}/authconfig-7.0.1/COPYING %{buildroot}/usr/share/package-licenses/authconfig/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
 %make_install
 %find_lang authconfig
-## make_install_append content
-mkdir -p %{buildroot}/usr/lib/python3.7/site-packages
-cp -R %{buildroot}/usr/lib64/python3.7/site-packages/* %{buildroot}/usr/lib/python3.7/site-packages/
-rm -rf %{buildroot}/usr/lib64/python3.7/site-packages
-## make_install_append end
+## install_append content
+# move all from /usr/lib64/ to /usr/lib as we don't do /usr/lib64 in python paths
+mkdir -p %{buildroot}/usr/lib/python3.8/site-packages
+cp -R %{buildroot}/usr/lib64/python3.8/site-packages/* %{buildroot}/usr/lib/python3.8/site-packages/
+rm -rf %{buildroot}/usr/lib64/python3.8/site-packages
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -134,11 +140,11 @@ rm -rf %{buildroot}/usr/lib64/python3.7/site-packages
 /usr/share/authconfig/shvfile.py
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/authconfig/COPYING
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/authconfig/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man5/fingerprint-auth-ac.5
 /usr/share/man/man5/password-auth-ac.5
 /usr/share/man/man5/postlogin-ac.5
