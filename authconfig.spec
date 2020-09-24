@@ -4,7 +4,7 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 22
+Release  : 23
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
