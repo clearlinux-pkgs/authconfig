@@ -4,7 +4,7 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 25
+Release  : 26
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
@@ -94,12 +94,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582847848
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1607983556
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-python-rev=3
 make  %{?_smp_mflags}
@@ -109,10 +108,10 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1582847848
+export SOURCE_DATE_EPOCH=1607983556
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/authconfig
 cp %{_builddir}/authconfig-7.0.1/COPYING %{buildroot}/usr/share/package-licenses/authconfig/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
@@ -120,9 +119,9 @@ cp %{_builddir}/authconfig-7.0.1/COPYING %{buildroot}/usr/share/package-licenses
 %find_lang authconfig
 ## install_append content
 # move all from /usr/lib64/ to /usr/lib as we don't do /usr/lib64 in python paths
-mkdir -p %{buildroot}/usr/lib/python3.8/site-packages
-cp -R %{buildroot}/usr/lib64/python3.8/site-packages/* %{buildroot}/usr/lib/python3.8/site-packages/
-rm -rf %{buildroot}/usr/lib64/python3.8/site-packages
+mkdir -p %{buildroot}/usr/lib/python3.9/site-packages
+cp -R %{buildroot}/usr/lib64/python3.9/site-packages/* %{buildroot}/usr/lib/python3.9/site-packages/
+rm -rf %{buildroot}/usr/lib64/python3.9/site-packages
 ## install_append end
 
 %files
