@@ -4,7 +4,7 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 37
+Release  : 38
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
@@ -94,7 +94,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1629142516
+export SOURCE_DATE_EPOCH=1635705265
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -111,7 +111,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1629142516
+export SOURCE_DATE_EPOCH=1635705265
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/authconfig
 cp %{_builddir}/authconfig-7.0.1/COPYING %{buildroot}/usr/share/package-licenses/authconfig/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
