@@ -3,4 +3,4 @@ lib_path=$(python -c "import sys; print(sys.path[-1])")
 lib64_path=$(echo $lib_path | sed 's!/lib/!/lib64/!')
 mkdir -pv %{buildroot}/$lib_path
 cp -av %{buildroot}/$lib64_path/* %{buildroot}/$lib_path/
-rm -rv %{buildroot}/$lib64_path
+rm -rv %{buildroot}*/$lib64_path

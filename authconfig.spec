@@ -7,7 +7,7 @@
 #
 Name     : authconfig
 Version  : 7.0.1
-Release  : 43
+Release  : 44
 URL      : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Source0  : https://releases.pagure.org/authconfig/authconfig-7.0.1.tar.bz2
 Summary  : Command line tool for setting up authentication from network services
@@ -15,7 +15,6 @@ Group    : Development/Tools
 License  : GPL-2.0 GPL-2.0+
 Requires: authconfig-bin = %{version}-%{release}
 Requires: authconfig-data = %{version}-%{release}
-Requires: authconfig-lib = %{version}-%{release}
 Requires: authconfig-license = %{version}-%{release}
 Requires: authconfig-locales = %{version}-%{release}
 Requires: authconfig-man = %{version}-%{release}
@@ -49,16 +48,6 @@ Group: Data
 
 %description data
 data components for the authconfig package.
-
-
-%package lib
-Summary: lib components for the authconfig package.
-Group: Libraries
-Requires: authconfig-data = %{version}-%{release}
-Requires: authconfig-license = %{version}-%{release}
-
-%description lib
-lib components for the authconfig package.
 
 
 %package license
@@ -115,7 +104,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1707073161
+export SOURCE_DATE_EPOCH=1707087677
 export GCC_IGNORE_WERROR=1
 CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
@@ -161,7 +150,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1707073161
+export SOURCE_DATE_EPOCH=1707087677
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/authconfig
 cp %{_builddir}/authconfig-%{version}/COPYING %{buildroot}/usr/share/package-licenses/authconfig/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1 || :
@@ -176,7 +165,7 @@ lib_path=$(python -c "import sys; print(sys.path[-1])")
 lib64_path=$(echo $lib_path | sed 's!/lib/!/lib64/!')
 mkdir -pv %{buildroot}/$lib_path
 cp -av %{buildroot}/$lib64_path/* %{buildroot}/$lib_path/
-rm -rv %{buildroot}/$lib64_path
+rm -rv %{buildroot}*/$lib64_path
 ## install_append end
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
@@ -194,10 +183,6 @@ rm -rv %{buildroot}/$lib64_path
 /usr/share/authconfig/authinfo.py
 /usr/share/authconfig/dnsclient.py
 /usr/share/authconfig/shvfile.py
-
-%files lib
-%defattr(-,root,root,-)
-/V3/usr/lib64/python3.12/site-packages/acutil.so
 
 %files license
 %defattr(0644,root,root,0755)
